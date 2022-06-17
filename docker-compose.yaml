@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  server-nodejs:
+    build: .
+    ports:
+      - "8000:8000"
+
+  db:
+    image: "postgres"
+    ports:
+      - "4321:5432"
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
