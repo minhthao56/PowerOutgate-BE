@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: power-outage-be-deployment
+  labels:
+    app: power-outage-be
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: power-outage-be
+  template:
+    metadata:
+      labels:
+        app: power-outage-be
+    spec:
+      containers:
+      - name: app-power-outage-be
+        image: minhthao56/power-outage-api:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PG_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: username
+        - name: PG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
+        - name: PG_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-config
+              key: postgres-url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: power-outage-be
+spec:
+  type: NodePort
+  selector:
+    app: power-outage-be
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30100
