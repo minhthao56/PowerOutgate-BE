@@ -1,3 +1,4 @@
+import { Schedule } from "@src/schema/schedule";
 import * as cheerio from "cheerio";
 
 class CheerioParse {
@@ -10,16 +11,44 @@ class CheerioParse {
     loadHTML() {
         return cheerio.load(this.html);
     }
-    parseTableToJSON() {
+    parseTableToJSON(): Schedule[] {
         const selector = this.loadHTML();
         const tbody = selector("tbody");
+
+        const listSchedule: Schedule[] = [];
+
         tbody.find("tr").each((_, e) => {
+            const schedule = new Schedule();
+            listSchedule.push(schedule);
+
             selector(e)
                 .find("td")
-                .each((_, item) => {
-                    console.log({ item: selector(item).text() });
+                .each((index, item) => {
+                    const text = selector(item).text();
+
+                    switch (index) {
+                        case 0:
+                            schedule.organization = text;
+                            break;
+                        case 1:
+                            schedule.date = text;
+                            break;
+                        case 2:
+                            schedule.fromTime = text;
+                            break;
+                        case 3:
+                            schedule.fromTime = text;
+                            break;
+                        case 4:
+                            schedule.area = text;
+                            break;
+                        case 5:
+                            schedule.reason = text;
+                            break;
+                    }
                 });
         });
+        return listSchedule;
     }
 }
 

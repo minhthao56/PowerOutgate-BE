@@ -5,7 +5,7 @@ const httpsAgent = new https.Agent({
     rejectUnauthorized: false,
 });
 
-const axiosInstance = createHttpClient({ httpsAgent });
+const axiosInstance = createHttpClient({ httpsAgent, baseURL: process.env.BASE_URL_CRAWLER });
 
 const axiosClient = new HttpClientAdapter(axiosInstance);
 export default axiosClient;

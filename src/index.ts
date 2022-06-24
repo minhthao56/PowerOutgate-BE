@@ -1,10 +1,11 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import db from "@src/database";
-import axios from "axios";
-import https from "https";
-import CheerioParse from "@src/internals/cheerioParse";
+import scheduleRouter from "@src/routers/schedule.router";
+import { App } from "@src/common/constants/app";
+
+import "dotenv/config";
+
 const app: Express = express();
-const port = 3000;
 
 db.connect(function (err) {
     if (err) {
@@ -13,29 +14,8 @@ db.connect(function (err) {
     }
     console.log("Connected!");
 });
-app.get("/", async (req: Request, res: Response) => {
-    // At request level
-    const agent = new https.Agent({
-        rejectUnauthorized: false,
-    });
+app.use(`${App.BASE_URL}/schedule`, scheduleRouter);
 
-    try {
-        const resp = await axios.get(
-            "https://www.cskh.evnspc.vn/TraCuu/GetThongTinLichNgungGiamMaKhachHang?madvi=PB1703&tuNgay=22-06-2022&denNgay=29-06-2022&ChucNang=MaDonVi",
-            {
-                httpsAgent: agent,
-            }
-        );
-        const html = resp.data;
-        res.send(html);
-
-        const cheerio = new CheerioParse(html);
-        cheerio.parseTableToJSON();
-    } catch (error) {
-        console.log({ error });
-    }
-});
-
-app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+app.listen(App.PORT, () => {
+    console.log(`⚡️[server]: Server is running at http://localhost:${App.PORT}`);
 });

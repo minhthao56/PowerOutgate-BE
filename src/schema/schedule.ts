@@ -1,21 +1,23 @@
 import { IsString } from "class-validator";
 
-export class Schedule {
+export class ScheduleBase {
     @IsString()
-    title: string;
+    date: string;
 
     @IsString()
-    text: string;
+    fromTime: string;
 
     @IsString()
-    rating: number;
+    toTime: string;
 
     @IsString()
-    email: string;
+    area: string;
 
     @IsString()
-    site: string;
+    reason: string;
+}
 
+export class Schedule extends ScheduleBase {
     @IsString()
-    createDate: Date;
+    organization: string;
 }
