@@ -10,10 +10,16 @@ class CheerioParse {
     loadHTML() {
         return cheerio.load(this.html);
     }
-    parseTable() {
+    parseTableToJSON() {
         const selector = this.loadHTML();
-        const result = selector("table");
-        return result;
+        const tbody = selector("tbody");
+        tbody.find("tr").each((_, e) => {
+            selector(e)
+                .find("td")
+                .each((_, item) => {
+                    console.log({ item: selector(item).text() });
+                });
+        });
     }
 }
 

@@ -1,8 +1,8 @@
 import express, { Express, Request, Response } from "express";
-import db from "./database";
+import db from "@src/database";
 import axios from "axios";
 import https from "https";
-import CheerioParse from "src/internals/cheerioParse";
+import CheerioParse from "@src/internals/cheerioParse";
 const app: Express = express();
 const port = 3000;
 
@@ -30,8 +30,7 @@ app.get("/", async (req: Request, res: Response) => {
         res.send(html);
 
         const cheerio = new CheerioParse(html);
-        const test = cheerio.parseTable();
-        console.log({ test });
+        cheerio.parseTableToJSON();
     } catch (error) {
         console.log({ error });
     }
