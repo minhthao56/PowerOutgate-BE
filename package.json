@@ -4,9 +4,14 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "build": "tsc && tsc-alias",
+        "build": " rm -rf dist && tsc && tsc-alias && yarn copy-sql && yarn copy-json",
         "start": "node dist/index.js",
-        "dev": "nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts"
+        "dev": "nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts",
+        "copy-sql": "cp -R src/database/init-database/sql dist/database/init-database && cp -R src/database/migration dist/database/migration",
+        "copy-json": "cp -R src/database/init-database/json dist/database/init-database && cp -R src/database/migration dist/database/migration",
+        "clear-db": "node dist/database/init-database/drop-table.js",
+        "init-table": "node dist/database/init-database/init-table.js",
+        "init-data": "node dist/database/init-database/init-data.js"
     },
     "author": "",
     "license": "ISC",

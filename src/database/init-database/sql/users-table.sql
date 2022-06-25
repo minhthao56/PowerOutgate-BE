@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS users (
+    userId serial PRIMARY KEY,
+	fristName VARCHAR ( 50 ) NOT NULL,
+	lastName VARCHAR ( 50 ) NOT NULL,
+	password VARCHAR ( 50 ) NOT NULL,
+	email VARCHAR ( 255 )  NOT NULL,
+	createdAt TIMESTAMP NOT NULL,
+	updateAt TIMESTAMP NOT NULL
+)

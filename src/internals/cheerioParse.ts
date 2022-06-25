@@ -1,4 +1,4 @@
-import { Schedule } from "@src/schema/schedule";
+import { Schedule } from "@src/schema/schedule-base";
 import * as cheerio from "cheerio";
 
 class CheerioParse {
@@ -34,10 +34,10 @@ class CheerioParse {
                             schedule.date = text;
                             break;
                         case 2:
-                            schedule.fromTime = text;
+                            schedule.from_time = text;
                             break;
                         case 3:
-                            schedule.fromTime = text;
+                            schedule.from_time = text;
                             break;
                         case 4:
                             schedule.area = text;
@@ -50,6 +50,7 @@ class CheerioParse {
         });
         return listSchedule;
     }
+    parseSelectToJSON() {}
 }
 
 export default CheerioParse;

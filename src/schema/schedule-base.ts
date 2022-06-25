@@ -5,10 +5,10 @@ export class ScheduleBase {
     date: string;
 
     @IsString()
-    fromTime: string;
+    from_time: string;
 
     @IsString()
-    toTime: string;
+    to_time: string;
 
     @IsString()
     area: string;
