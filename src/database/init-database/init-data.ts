@@ -1,6 +1,6 @@
 import db from "@src/database";
 import fs from "fs";
-import companiesMN from "@src/crawler/list-company-mn";
+import companiesMN from "@src/crawler/mn/list-company-mn";
 import organizations from "@src/database/init-database/json/organizations.json";
 
 db.connect(function (err) {
@@ -11,36 +11,43 @@ db.connect(function (err) {
     console.log("Connected!");
 });
 
-const companyInsert = fs.readFileSync(__dirname + "/sql/insert-companies.sql").toString();
-const organizationInsert = fs.readFileSync(__dirname + "/sql/insert-companies.sql").toString();
+const companySql = fs.readFileSync(__dirname + "/sql/insert-companies.sql").toString();
+const organizationSql = fs.readFileSync(__dirname + "/sql/insert-organizations.sql").toString();
 
-for (const company of companiesMN) {
-    const query = {
-        text: companyInsert,
-        values: Object.values(company),
-    };
+async function insertCompany() {
+    for (const company of companiesMN) {
+        const query = {
+            text: companySql,
+            values: Object.values(company),
+        };
 
-    db.query(query, (err, result) => {
-        if (err) {
-            console.log({ err });
-        }
-        if (result) {
+        try {
+            const result = await db.query(query);
             console.log({ result });
+        } catch (error) {
+            console.log({ error });
         }
-    });
+    }
 }
 
-for (const organization of organizations) {
-    const query = {
-        text: organizationInsert,
-        values: Object.values(organization),
-    };
-    db.query(query, (err, result) => {
-        if (err) {
-            console.log({ err });
-        }
-        if (result) {
+async function insertOrganization() {
+    for (const organization of organizations) {
+        const query = {
+            text: organizationSql,
+            values: Object.values(organization),
+        };
+        try {
+            const result = await db.query(query);
             console.log({ result });
+        } catch (error) {
+            console.log({ error });
         }
-    });
+    }
 }
+async function runInitData() {
+    await insertCompany();
+    await insertOrganization();
+    db.end();
+}
+
+runInitData();

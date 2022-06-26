@@ -1,9 +1,6 @@
+import "dotenv/config";
 import createHttpClient, { HttpClientAdapter } from "@src/packages/http-client";
-import https from "https";
-
-const httpsAgent = new https.Agent({
-    rejectUnauthorized: false,
-});
+import httpsAgent from "./httpsAgent";
 
 const axiosInstance = createHttpClient({ httpsAgent, baseURL: process.env.BASE_URL_CRAWLER_MN });
 

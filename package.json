@@ -4,14 +4,14 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "build": " rm -rf dist && tsc && tsc-alias && yarn copy-sql && yarn copy-json",
+        "build": " rm -rf dist && tsc && tsc-alias && yarn copy-sql",
         "start": "node dist/index.js",
         "dev": "nodemon -e ts,js --exec ts-node -r tsconfig-paths/register ./src/index.ts",
-        "copy-sql": "cp -R src/database/init-database/sql dist/database/init-database && cp -R src/database/migration dist/database/migration",
-        "copy-json": "cp -R src/database/init-database/json dist/database/init-database && cp -R src/database/migration dist/database/migration",
         "clear-db": "node dist/database/init-database/drop-table.js",
         "init-table": "node dist/database/init-database/init-table.js",
-        "init-data": "node dist/database/init-database/init-data.js"
+        "init-data": "node dist/database/init-database/init-data.js",
+        "init-database": "yarn clear-db && yarn init-table && init-data",
+        "copy-sql": "copyfiles -u 1 src/**/*.sql dist"
     },
     "author": "",
     "license": "ISC",
@@ -28,6 +28,7 @@
         "@types/express": "^4.17.13",
         "@types/node": "^18.0.0",
         "@types/pg": "^8.6.5",
+        "copyfiles": "^2.4.1",
         "nodemon": "^2.0.16",
         "ts-node": "^10.8.1",
         "tsc-alias": "^1.6.11",

@@ -1,7 +1,6 @@
-import "dotenv/config";
 import axiosClientMN from "@src/internals/axios-client/axiosClientMN";
 import CheerioParse from "@src/internals/cheerioParse";
-import companies from "@src/crawler/list-company-mn";
+import companies from "@src/crawler/mn/list-company-mn";
 import { Organization } from "@src/schema/organization-base";
 import fs from "fs";
 
